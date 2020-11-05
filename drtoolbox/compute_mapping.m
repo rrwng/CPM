@@ -1,4 +1,4 @@
-function [mappedA, mapping] = compute_mapping(A, type, no_dims,varargin)
+function [mappedA, mapping] = compute_mapping(A, type, no_dims, dist,varargin)
 %COMPUTE_MAPPING Performs dimensionality reduction on a dataset A
 %
 %   mappedA = compute_mapping(A, type)
@@ -173,8 +173,8 @@ function [mappedA, mapping] = compute_mapping(A, type, no_dims,varargin)
     switch type
         case 'Isomap'         
             % Compute Isomap mapping
-			if isempty(varargin), [mappedA, mapping] = isomap(A, no_dims, 12);
-            else [mappedA, mapping] = isomap(A, no_dims,varargin{1}); end
+			if isempty(varargin), [mappedA, mapping] = isomap(A, no_dims, dist, 12);
+            else [mappedA, mapping] = isomap(A, no_dims, dist,varargin{1}); end
             mapping.name = 'Isomap';
 			
 		case 'LandmarkIsomap'
@@ -200,7 +200,7 @@ function [mappedA, mapping] = compute_mapping(A, type, no_dims,varargin)
         case 'LLE'
             % Compute LLE mapping
 			if isempty(varargin), [mappedA, mapping] = lle(A, no_dims, 12, eig_impl);
-            else [mappedA, mapping] = lle(A, no_dims, varargin{1}, eig_impl); end
+            else [mappedA, mapping] = lle(A, no_dims, dist, varargin{1}, eig_impl); end
             mapping.name = 'LLE';
             
         case 'GPLVM'
@@ -321,7 +321,7 @@ function [mappedA, mapping] = compute_mapping(A, type, no_dims,varargin)
         case {'tSNE', 't-SNE'}
             % Compute t-SNE mapping
 			if isempty(varargin), mappedA = tsne(A, [], no_dims);
-            else mappedA = tsne(A, [], no_dims,varargin{1}); end
+            else mappedA = tsne(A, [], no_dims, dist,varargin{1}); end
             mapping.name = 't-SNE';
             
         case {'AutoEncoder', 'Autoencoder'}
